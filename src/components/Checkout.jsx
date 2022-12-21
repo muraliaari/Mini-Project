@@ -103,7 +103,7 @@ const Checkout = () => {
             <TableRow key={namesarray[i]}>
               <TableCell>{namesarray[i]}</TableCell>
               <TableCell align="center"><div class="shadow rounded" style={{width:'110px'}}>
-                <img src={ele} class="card-img" alt="..." style={{width:"100px",height:"100px", border:"rounded"}}/>
+                <img src={ele} class="card-img" alt="..." style={{width:"120px",height:"100px", border:"rounded"}}/>
                 </div>
                 </TableCell>
               <TableCell align="center">{states[i]}</TableCell>
