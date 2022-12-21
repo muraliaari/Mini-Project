@@ -1,14 +1,15 @@
 import React,{useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {addItem, addItemDaal, addItemCurd, addItemPaneer, addItemPickle, addItemSweet,deleteItemChapati  } from '../slice'
+import {addItem, addItemDaal, addItemCurd, addItemPaneer, addItemPickle, addItemSweet,deleteItemChapati } from '../slice'
 import { chapatiQty, daalQty, paneerQty, jamunQty, curdQty, pickleQty,deleteqtyfinal } from '../slice2';
+import { finalPrice } from '../slice3';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
@@ -21,8 +22,9 @@ let countPanner=0
 let countCurd=0
 let countSweet=0
 let countpickle = 0;
-let dele=0;
+let dele=1;
 let submit=0
+
 
 
 
@@ -30,14 +32,17 @@ let submit=0
 function Thali() {
   const state = useSelector((state) => state.counter.itemsarray)
 const states = useSelector((states) => states.counters.quantity)
+const statePrice = useSelector((statePrice) => statePrice.pricecounter.value)
 const dispatch = useDispatch()
+
   const ref = useRef(null);
   const[count,setCount] = useState(false)
 const [pricearray,setPrice] = useState([])
+const [finalSubmit, setFinal]=useState(false)
    
 
   
-  //console.log(countchapa)
+  console.log(statePrice)
     const handleClickChapati=()=>{
       for(let i=0;i<state.length;i++){  //to ensure that after clicking Add btn twice the item should be displayed only once.
         if(state[i]=="https://media.istockphoto.com/id/516359240/photo/bhendi-masala-or-bhindi-masala-ladies-finger-curry-with-chapati.jpg?s=612x612&w=0&k=20&c=0mGnvNM2lxl-dTTJlhAfVJE5WidxYmmvrvNs1NZUKvs="){
@@ -101,6 +106,7 @@ const [pricearray,setPrice] = useState([])
       
       if(countCurd<1){
         dispatch(addItemCurd())
+        
         pricearray.push(10)
         setPrice([...pricearray])
       }
@@ -115,7 +121,7 @@ const [pricearray,setPrice] = useState([])
     
       if(countpickle<1){
         dispatch(addItemPickle())
-        pricearray.push(15)
+        pricearray.push(20)
         setPrice([...pricearray])
       }
     }
@@ -166,12 +172,13 @@ const [pricearray,setPrice] = useState([])
     const handleDoneYes=()=>{ //asking done with the items
       setCount(true)
       dele=0;
+      setFinal(true)
       countchapa=1;
       countCurd=1;
-      countDaal=2;
-      countPanner=3;
-      countSweet=4;
-      countpickle=5;
+      countDaal=1;
+      countPanner=1;
+      countSweet=1;
+      countpickle=1;
       console.log(states)
       console.log(pricearray)
     }
@@ -179,6 +186,7 @@ const [pricearray,setPrice] = useState([])
     const handleDoneNO=()=>{
       setCount(false)
       dele=1;
+      setFinal(false)
       countchapa=0;
       countCurd=0;
       countDaal=0;
@@ -192,22 +200,31 @@ const [pricearray,setPrice] = useState([])
       console.log(states)
       console.log(pricearray)
       setCount(false)
-      submit=1;
+      
       if(states.length==0){
       alert("Quatity cannot be Empty")
-      submit=0
+      setFinal(false)
       setCount(true)
       }
-      if(count)
+      if(count){
+        setCount(true)
       ref.current?.scrollIntoView({behavior: 'smooth'});
+      dispatch(finalPrice([...pricearray]))
+      console.log("from thali",statePrice)
+      }
 
     }
 
+
+
     return (
         <div>
-          
-          {
-            state.map((ele,i)=>(
+          <div class="card text-bg-warning mb-3" style={{maxWidth: "100rem"}}>
+  <div class="card-header" style={{fontSize:"larger", fontWeight:"bold"}}>Here will be the List of your items</div>
+  <div class="card-body">
+    <h5 class="card-title" style={ !state.length? { display:"block"} : {display:"none"}}>Add the items from the Menu</h5>
+    {
+            state.map((ele,i)=>( //items aaray
               <li key={i} style={{display:"inline-block", width:"150px",height:"200px",marginLeft:"10px"}}>
                 <div class="shadow-lg p-2 mb-1 bg-body rounded">
                   <img src={ele} class="card-img" alt="..."/><br></br>
@@ -216,13 +233,27 @@ const [pricearray,setPrice] = useState([])
                   </li> 
 
             ))
-          }<br></br>
-          <div style={ state.length>=2&&submit==0 ? { display:"block"} : {display:"none"}}><label>Done ?</label>
-          <button onClick={handleDoneYes}>Yes</button> &nbsp; 
-          <button onClick={handleDoneNO}>No</button></div>
+          }
+  </div>
+</div>
+          
+          <br></br>
+          
+
+          <div class="card text-bg-danger mb-1"  style={ state.length>=2&&submit==0 ? { display:"block",maxWidth: "100rem"} : {display:"none"}}>
+  <div class="card-header">Done Customising?</div>
+  <div class="card-body">
+  <button onClick={handleDoneYes}>Yes</button> &nbsp;
+  <button onClick={handleDoneNO}>No</button>
+    <p class="card-text">By Clicking Yes you cannot add or delete the items. Click Confirm for final.</p>
+  </div>
+
+
+          
       
           <div style={ count ? { display:"block"} : {display:"none"}}> 
-          <label>Final quantity ac:</label>
+          <label>Please add the Qty accordingly : </label>
+
            <TextField
         type="number"
           required
@@ -272,12 +303,18 @@ const [pricearray,setPrice] = useState([])
           onChange={handlePickle}
         />
         </div>
-        <button style={ state.length>=2 ? {} : {display:"none"}} onClick={handleFinal}>Final Submit :</button>
-          <h2>Customize your Thali</h2>
-            <div class="container overflow-hidden text-center">
-  <div class="row gy-10">
-    <div class="col-6" style={{width:"300px"}}>
-      <div class="p-3 border bg-light" >
+        </div>
+        <button style={ state.length>=2&&finalSubmit ? {} : {display:"none"}} onClick={handleFinal}>Confirm</button>
+
+          <br></br><br></br>
+          
+          <div class="card text-bg-dark mb-3" style={{maxWidth:"100rem"}}>
+          
+  <div class="card-header"><h2>Customize your Thali</h2></div>
+  <div class="container overflow-hidden text-center" style={{maxWidth:"100rem"}}>
+              <div class="row gy-5" style={{maxWidth:"100 rem", padding:"50px"}}>
+                <div class="col-6" style={{width:"300px"}}>
+                 <div class="p-3 border bg-light" >
       <Card style={{ width: 245}}>
       <CardMedia
         component="img"
@@ -351,9 +388,9 @@ const [pricearray,setPrice] = useState([])
       
     </div>
   </div>
-</div><br></br>
-<div class="container overflow-hidden text-center">
-  <div class="row gy-10">
+</div>
+<div class="container overflow-hidden text-center" style={{marginLeft:"50px"}}>
+  <div class="row gy-10" style={{maxWidth:"100 rem"}}>
     <div class="col-6" style={{width:"300px"}}>
       <div class="p-3 border bg-light" >
       <Card style={{ width: 245}}>
@@ -418,7 +455,7 @@ const [pricearray,setPrice] = useState([])
           Pickle
         </Typography>
         <Typography variant="body2" color="text.secondary">
-        ₹ 15/-
+        ₹ 20/-
         </Typography>
       </CardContent>
       <CardActions>
@@ -430,8 +467,10 @@ const [pricearray,setPrice] = useState([])
       
     </div>
   </div>
-</div>    
-<div ref={ref}><button><Link to="checkout">CheckOut</Link></button></div>
+</div>
+</div>
+            <br></br>
+<div ref={ref} style={ count ? { display:"block", color:"black"} : {display:"none"}}><Button size="large" endIcon={<SendIcon />} variant="contained" color="success"><Link to="checkout">CheckOut</Link></Button></div>
         </div>
     )
 }

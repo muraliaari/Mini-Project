@@ -12,32 +12,32 @@ export const counterSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       
-      chapatistate.quantity[0]=action.payload
+      chapatistate.quantity[0]=Number(action.payload)
       //console.log(states.quantity)
       //console.log(action.payload)
     },
     daalQty: (daalstate,action) => {
-        daalstate.quantity[1]=action.payload
+        daalstate.quantity[1]=Number(action.payload)
         //console.log(daalstate.quantity)
  
   },
   paneerQty: (paneerstate,action) => {  
-    paneerstate.quantity[2]=action.payload
+    paneerstate.quantity[2]=Number(action.payload)
     //console.log(daalstate.quantity)
 
 },
 jamunQty: (jamunstate,action) => {    
-  jamunstate.quantity[3]=action.payload
+  jamunstate.quantity[3]=Number(action.payload)
   //console.log(daalstate.quantity)
 
 },
 curdQty: (curdstate,action) => {     
-  curdstate.quantity[4]=action.payload
+  curdstate.quantity[4]=Number(action.payload)
   //console.log(daalstate.quantity)
 
 },
 pickleQty: (picklestate,action) => {    
-  picklestate.quantity[5]=action.payload
+  picklestate.quantity[5]=Number(action.payload)
   //console.log(daalstate.quantity)
 
 },
