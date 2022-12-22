@@ -219,6 +219,7 @@ const [finalSubmit, setFinal]=useState(false)
 
     return (
         <div>
+          <h1>The Delicious</h1>
           <div class="card text-bg-warning mb-3" style={{maxWidth: "100rem"}}>
   <div class="card-header" style={{fontSize:"larger", fontWeight:"bold"}}>Here will be the List of your items</div>
   <div class="card-body">
@@ -238,19 +239,15 @@ const [finalSubmit, setFinal]=useState(false)
 </div>
           
           <br></br>
-          
 
           <div class="card text-bg-danger mb-1"  style={ state.length>=2&&submit==0 ? { display:"block",maxWidth: "100rem"} : {display:"none"}}>
   <div class="card-header">Done Customising?</div>
   <div class="card-body">
-  <button onClick={handleDoneYes}>Yes</button> &nbsp;
-  <button onClick={handleDoneNO}>No</button>
+  <button type="button" class="btn btn-dark btn-lg" onClick={handleDoneYes}>Yes</button>
+&nbsp;
+  <button type="button" class="btn btn-dark btn-lg" onClick={handleDoneNO}>No</button>
     <p class="card-text">By Clicking Yes you cannot add or delete the items. Click Confirm for final.</p>
   </div>
-
-
-          
-      
           <div style={ count ? { display:"block"} : {display:"none"}}> 
           <label>Please add the Qty accordingly : </label>
 
@@ -304,13 +301,14 @@ const [finalSubmit, setFinal]=useState(false)
         />
         </div>
         </div>
-        <button style={ state.length>=2&&finalSubmit ? {} : {display:"none"}} onClick={handleFinal}>Confirm</button>
+        <button type="button" class="btn btn-dark btn-lg" style={ state.length>=2&&finalSubmit ? {} : {display:"none"}} onClick={handleFinal}>Confirm</button>
 
-          <br></br><br></br>
           
+          <marquee><h2>Discover the best food & drinks in The Delicious</h2></marquee>
           <div class="card text-bg-dark mb-3" style={{maxWidth:"100rem"}}>
           
   <div class="card-header"><h2>Customize your Thali</h2></div>
+
   <div class="container overflow-hidden text-center" style={{maxWidth:"100rem"}}>
               <div class="row gy-5" style={{maxWidth:"100 rem", padding:"50px"}}>
                 <div class="col-6" style={{width:"300px"}}>
@@ -332,6 +330,7 @@ const [finalSubmit, setFinal]=useState(false)
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleClickChapati}>Add</Button>
+        <p>Chapatis are made of whole-wheat flour</p>
       </CardActions>
     </Card>
 
@@ -470,7 +469,7 @@ const [finalSubmit, setFinal]=useState(false)
 </div>
 </div>
             <br></br>
-<div ref={ref} style={ count ? { display:"block", color:"black"} : {display:"none"}}><Button size="large" endIcon={<SendIcon />} variant="contained" color="success"><Link to="checkout">CheckOut</Link></Button></div>
+<div ref={ref} style={ count ? { display:"block"} : {display:"none"}}><Button size="large" endIcon={<SendIcon />} variant="contained" color="success"><Link to="checkout">CheckOut</Link></Button></div>
         </div>
     )
 }

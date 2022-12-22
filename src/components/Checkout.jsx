@@ -74,13 +74,12 @@ const Checkout = () => {
     console.log(statePrice.payload)
     console.log(namesarray)
   return (
+    <div class="card text-bg-secondary mb-3" style={{Width:"150rem"}}>
+  <div class="card-header">See you soon!</div>
+  <div class="card-body">
+    <h5 class="card-title">Enjoy your Meal</h5>
     <div>
-    
-      
-      
       <div>
-      
-
       <TableContainer component={Paper} style={{background:"#cfd8dc", border:"1px solid black"}}>
       <Table sx={{ minWidth: 700 }} aria-label="spanning table">
         <TableHead>
@@ -136,6 +135,9 @@ const Checkout = () => {
       </div>
     
     </div>
+  </div>
+</div>
+    
   )
 }
 
