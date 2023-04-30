@@ -330,7 +330,7 @@ const [finalSubmit, setFinal]=useState(false)
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleClickChapati}>Add</Button>
-        <p>Chapatis are made of whole-wheat flour</p>
+        
       </CardActions>
     </Card>
 
